@@ -1,8 +1,32 @@
 <html>
   <body>
+  	<h1>Games</h1>
+	  	<table>
+		<thead><tr><th>ID</th>
+					<th>Name</th>
+					<th>Release date</th>
+					<th>Price</th>
+					<th>Score</th></tr></thead>
+		<tbody>
+		    {% for game in games %}
+		      <tr><td>{{game.GAME_ID}}</td>
+		      	<td>{{game.GAME_NAME}}</td>
+		      	<td>{{game.RELEASE_DATE}}</td>
+		      	<td>{{game.PRICE}}</td>
+		  		<td>{{game.SCORE}}</td></tr>
+		    {% endfor %}
+	    </tbody>
+		</table>
+
+    <h1>Order Game</h1>
     <form method="POST" action="/">
-      <input type="text" name="title">
-      <input type="submit" value="Add">
+        <input type="text" name="title">
+        <input type="submit" value="Add">
     </form>
+
+    <h1>Orders</h1>
+    {% for order in orders %}
+      <p>{{order.ORDER_ID}}</p>
+    {% endfor %}
   </body>
 </html>
