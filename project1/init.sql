@@ -29,4 +29,27 @@ VALUES
     (2, 'Cyberpunk', '2021-09-01', 180, 3),
     (3, 'Mario', '1970-03-10', 10, 10);
 
-SELECT NEWID()
+
+CREATE PROCEDURE UpdateOrderValues @ord_id int, @ord_date date, @g_id int, @net money, @disc decimal, @gross money
+AS
+    BEGIN
+        UPDATE Orders 
+        SET 
+            ORDER_DATE = @ord_date,
+            GAME_ID = @g_id,
+            NET_AMOUNT = @net,
+            DISCOUNT = @disc,
+            GROSS_AMOUNT = @gross
+        WHERE ORDER_ID=@ord_id
+    END
+    
+CREATE PROCEDURE ListGames @s_dt date, @e_dt date, @phr varchar(100), @min_s decimal
+AS
+    BEGIN
+        SELECT *
+        FROM Games g 
+        WHERE RELEASE_DATE BETWEEN @s_dt AND @e_dt
+            AND GAME_NAME LIKE  CONCAT('%',@phr,'%')
+            AND SCORE >= @min_s
+    END
+        

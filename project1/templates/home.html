@@ -5,7 +5,37 @@
   	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   </head>
   <body>
-  	<h1>Games</h1>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">{{ message }}</button>
+    </div>
+    {% endfor %}
+    
+    <h1>Games</h1>
+
+    <table class="table">
+		  <thead>
+			<tr class="table__header">
+				<th class="table__cell">Start Date</th>
+				<th class="table__cell">End Date</th>
+				<th class="table__cell">Phrase in name of the game</th>
+				<th class="table__cell">Min score</th>
+			</tr>
+		  </thead>
+		<tbody>
+	      <tr class="table__row">
+	      <form method="POST" action="/filter" class="filter">>
+	      	<td class="table__cell"><input type="text" name="START_DATE" value='1900-01-01'></td>
+	      	<td class="table__cell"><input type="text" name="END_DATE" value='2025-12-31'></td>
+	      	<td class="table__cell"><input type="text" name="PHRASE" value=''></td>
+	      	<td class="table__cell"><input type="text" name="MIN_SCORE" value=0></td>
+	      	<td class="table__cell"><input type="submit" value="Filter"></td>
+	      </form>
+	  	  </tr>
+	    </tbody>
+		</table>
+
 	  	<table class="table">
 		  <thead>
 			<tr class="table__header">
@@ -14,6 +44,7 @@
 				<th class="table__cell">Release date</th>
 				<th class="table__cell">Price</th>
 				<th class="table__cell">Score</th>
+				<th class="table__cell"> </th>
 			</tr>
 		  </thead>
 		<tbody>
@@ -24,6 +55,12 @@
 		      	<td class="table__cell">{{game.RELEASE_DATE}}</td>
 		      	<td class="table__cell">{{game.PRICE}}</td>
 		  		<td class="table__cell">{{game.SCORE}}</td>
+		  		<td class="table__cell">
+		  		    <form method="POST" action="/add" class="add_order">
+				        <input type="hidden" name="game_id" value={{game.GAME_ID}}>
+				        <input type="submit" value="Add">
+				    </form>
+				</td>
 		  	  </tr>
 		    {% endfor %}
 	    </tbody>
@@ -58,10 +95,10 @@
 			  		<td class="table__cell">{{order.DISCOUNT}}</td>
 			  		<td class="table__cell">{{order.GROSS_AMOUNT}}</td>
 					<td class="table__cell"><form method="POST" action="/edit" class="edit_order">
-					        <button type="submit" name="edit" value="{{loop.index}}"> Edit </button>
+					        <button type="submit" name="ORDER_ID" value="{{order.ORDER_ID}}"> Edit </button>
 					    </form></td>
 		  			<td class="table__cell"><form method="POST" action="/delete" class="delete_order">
-				        <button type="submit" name="delete" value={{order.ORDER_ID}}> Delete </button>
+				        <button type="submit" name="ORDER_ID" value={{order.ORDER_ID}}> Delete </button>
 				    </form></td></tr>
 		    {% endfor %}
 	    </tbody>
